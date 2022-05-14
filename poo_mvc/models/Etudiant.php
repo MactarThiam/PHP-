@@ -1,15 +1,22 @@
 <?php
+namespace App\Models;
 class Etudiant extends User{
     private string $nomComplet;
     private string $matricule;
 
     public function __construct(){
-        $this->role="ROLE_ETUDIANT";
+        parent::__construct();
+        parent::$role="ROLE_ETUDIANT";
+        parent::$table="etudiant";
     }
     //les attributs navigationnels
     //OneToMany avec Inscriptions
     public function inscriptions():array{
-        return [];
+        $sql="select i.* from inscriptions i, 
+              etudiant e where i.etudiant_id=e.id and e.id=? 
+              ";
+        parent::selectWhere($sql,[$this->id]);
+           return [];
     }
 
     /**
@@ -51,4 +58,13 @@ class Etudiant extends User{
 
         return $this;
     }
+    public static  function selectAll(){
+        $sql="select *  from  ".parent::$table." where role like ? ";
+       return parent::database()->executeSelect($sql,[parent::$role]);
+     }
+     public function insert(){
+        $sql="INSERT INTO".parent::$table." (`login`,`password`, `nomComplet`,  `matricule`,  `role`)
+             VALUES (?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->login,$this->password,$this->nomComplet,$this->matricule,parent::$role,]);
+     }
 }

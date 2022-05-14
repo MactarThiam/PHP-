@@ -1,25 +1,34 @@
 <?php
-class Classe{
+namespace App\Models;
+use App\Core\Model;
+class Classe extends Model{
     private int $id;
     private string $libelle;
     private string $niveau;
     private string $filiere;
 
     public function __construct(){
+        parent::$table="classe";
 
     }
 
     //les attributs navigationnels
     //OneToMany avec cours
-    private array $cours=[];
     public function cours():array{
-        return [];
+        $sql="select c.* from cours c, 
+              classe cl where c.classe_id=cl.id and cl.id=? 
+              ";
+        parent::selectWhere($sql,[$this->id]);
+           return [];
     }
     //OneToMany avec inscriptions
-    private array $inscriptions=[];
     public function inscriptions():array{
-        return [];
-    }
+        $sql="select i.* from inscriptions i, 
+              classe cl where i.classe_id=cl.id and cl.id=? 
+              ";
+        parent::selectWhere($sql,[$this->id]);
+           return [];
+       }
 
 
 

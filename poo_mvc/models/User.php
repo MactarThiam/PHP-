@@ -1,5 +1,7 @@
 <?php
-class User{
+namespace App\Models;
+use App\Core\Model;
+abstract class User extends Model{
     protected int $id;
     protected string $login;
     protected string $password;
@@ -8,6 +10,7 @@ class User{
     //Methodes 
     //Constructeur par defaut
     public function __construct(){
+        Parent::$table="user";
         
     }
 
@@ -90,4 +93,13 @@ class User{
 
         return $this;
     }
+    public function insert(){
+         
+        //die(parent::$table);
+        $sql="INSERT INTO  ".parent::$table."  (`login`, `password`,  `role`)
+             VALUES ( ?, ?, ?);";
+            
+       return parent::database()->executeUpdate($sql,[
+                                                $this->login,$this->password,self::$role]);
+       }
 }

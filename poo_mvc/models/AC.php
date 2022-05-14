@@ -1,10 +1,13 @@
 <?php
+namespace App\Models;
 class AC extends User{
     private string $adresse;
 
     public function __construct()
     {
-        $this->role="ROLE_AC";
+        parent::__construct();
+        parent::$role="ROLE_AC";
+        
     }
 
     /**
@@ -26,4 +29,8 @@ class AC extends User{
 
         return $this;
     }
+    public static  function selectAll(){
+        $sql="select *  from  ".parent::$table." where role like ? ";
+       return parent::database()->executeSelect($sql,[parent::$role]);
+     }
 }
