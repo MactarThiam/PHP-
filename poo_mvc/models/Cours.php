@@ -5,7 +5,7 @@ class Cours extends Model{
    private int $id;
    private string $heureDebut;
    private string $heureFin;
-   private DateTime $dateCours; 
+   private \DateTime $dateCours; 
 
    public function __construct(){
       parent::$table="cours";

@@ -1,51 +1,59 @@
 <?php
+
+
+
+
 require_once("../vendor/autoload.php");
-// Front controller
-// Url localhost:8000
-echo "je suis sur le front controller"."<br>";
-//chargement manuel
-//require_once("../modles/User.php");
+require_once('./../core/constantes.php');
+require_once('./../core/fonctions.php');
 
-//A chaque manipuler une classe
-//-1-importer la classe
+use App\Controllers\SecuriteController;
+use App\Controllers\ClasseController;
+use App\Core\Router;
+use App\Exceptions\RouteNotFoundException;
 
-//require_once('./../models/Classe.php');
-//require_once('./../models/User.php');
+$router=new Router();
 
-//-2-creer des objets=instantiations
+//Enregister une route  : uri associe a un Controller et une action
 
-//$classe1=new Classe();
-//$classe2=new Classe();
-//$classe3=new Classe;
+//$router->route("uri",[controller,action]);
 
-//-3-Donner un etat c a d donner les valeurs aux attributs
-//$classe1->setNiveau("L1");
-//$classe1->setFiliere("Glrs");
-//$classe1->setLibelle("specialite");
-//$cl1->setLibelle("L1Glrs");
+$router->route("/",[SecuriteController::class,"connexion"]);
+$router->route("/logout",[SecuriteController::class,"deconnexion"]);
+$router->route("/classe",[ClasseController::class,"lister"]);
+$router->route("/classe-add",[ClasseController::class,"ajouter"]);
+$router->route("/classe-up",[ClasseController::class,"modifier"]);
+$router->route("/classe-del",[ClasseController::class,"supprimer"]);
+$router->route("/etudiant",[ClasseController::class,"lister"]);
+$router->route("/etudiant-add",[ClasseController::class,"ajouter"]);
+$router->route("/etudiant-up",[ClasseController::class,"modifier"]);
+$router->route("/etudiant-del",[ClasseController::class,"supprimer"]);
 
-//cho "Niveau : ".$classe1->getNiveau()."<br>";
-//echo "Filliere : ".$classe1->getFiliere()."<br>";
-//echo "Libelle : ".$classe1->getLibelle()."<br>";
-//creation d'utilisateur
-//$user1=new User();
-//$user2=new User();
-//les setters
-//$user1->setLogin('RP');
-//$user1->setPassword('pwd');
+try {
+  $router->resolve();
+} catch (RouteNotFoundException $ex) {
+   die($ex->message);
+}
 
-//$user2->setLogin('AC');
-//$user2->setPassword('Inconnu');
 
-//les getters
-//echo "user1:  ".$user1->getLogin()."<br>"."password:  ".$user1->getPassword()."<br>";
-//echo "user2:  ".$user2->getLogin()."<br>"."password:  ".$user2->getPassword()."<br>";
-use App\Models\AC;
-$ac =new AC();
-$ac->setLogin("ac");
-$ac->setPassword("ac");
-$ac->insert();
+// Une variable d'une classe
+
+
+/* use App\Models\Module;
+use App\Models\RP;
+use App\Core\Request;
+use App\Core\DataBase;
+use App\Exceptions\BdConnexionException;
+use App\Controllers\ClasseController;
+$rp =new RP(); */
+use App\Models\RP;
+/* use App\Models\RP;
+$rp =new RP();
+$rp->setLogin("rp3");
+$rp->setPassword("rp");
+$rp->insert();
 echo "<pre>";
-AC::selectAll();
-var_dump(AC::selectById(1));
+RP::selectAll();
+var_dump(RP::selectById(1));
 echo "</pre>";
+echo "</pre>"; */

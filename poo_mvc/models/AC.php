@@ -6,7 +6,7 @@ class AC extends User{
     public function __construct()
     {
         parent::__construct();
-        parent::$role="ROLE_AC";
+        //self::$role="ROLE_AC";
         
     }
 

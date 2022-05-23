@@ -5,7 +5,7 @@ class DataBase{
     private \PDO|null $pdo=null;
     public function openConnexion(){
         try {
-            $this->pdo=new \PDO("mysql:dbname=gestion_scolaire_l2;host=localhost","root");
+            $this->pdo=new \PDO("mysql:dbname=gestion_scolaire_l2s;host=MySQL:3306","root","");
         } catch (\Exception $ex) {
               die("Erreur Connexion -Veuillez contacter votre Admin");
         }
